@@ -1,7 +1,7 @@
-﻿@model TestFeatureFlags.ViewModels.CustomerVM
+﻿@model string
+@*TestFeatureFlags.ViewModels.CustomerVM*@
 
 <!DOCTYPE html>
-
 <style>
     body {
         background-color: @ViewData["BackgroundColor"]
@@ -18,10 +18,17 @@
 </head>
 <html lang="en">
 <body>
+
+    <div>
+        @await Html.PartialAsync("Auth" )
+        @*@{ @await Html.PartialAsync("Auth", Model); }
+        @Model*@
+    </div>
+
     <div class="text-center">
-        <h1 class="display-4">Welcome</h1>
+        <h2 class="display-4">Welcome</h2>
         <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-        <h2>@ViewData["Message"]</h2>
+        <h3>@ViewData["Message"]</h3>
     </div>
 
     <link href="~/lib/datatables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />

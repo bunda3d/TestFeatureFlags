@@ -1,0 +1,13 @@
+﻿@model string
+<h1 class="bg-info text-white pl-1 rounded-left">Authorization</h1>
+
+@if (User?.Identity?.IsAuthenticated ?? false)
+{
+    <div class="rounded-left p-0 mb-3 d-flex justify-content-start align-items-center">
+
+        <a asp-controller="Account" asp-action="Logout" class="btn btn-sm btn-warning d-inline-flex mr-2">Logout</a>
+        <div class="bg-success rounded-left p-0 m-0 d-inline-flex d-flex flex-grow flex-fill align-self-stretch">
+            <span class="px-3 my-auto ml-2 text-white">@Model</span>
+        </div>
+    </div>
+}

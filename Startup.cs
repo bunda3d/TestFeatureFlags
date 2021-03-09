@@ -11,8 +11,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.FeatureManagement;
-using TestFeatureFlags.Identity.Models;
 
+using TestFeatureFlags.TagHelpers;
+using TestFeatureFlags.Identity.Models;
+using TestFeatureFlags.Models;
 using TestFeatureFlags.Identity.Policy;
 using TestFeatureFlags.Controllers;
 using TestFeatureFlags.Data;

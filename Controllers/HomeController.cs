@@ -21,6 +21,7 @@ namespace TestFeatureFlags.Controllers
 	{
 		// sentinel updates
 		private readonly Settings _settings;
+
 		private readonly ILogger<HomeController> _logger;
 		private UserManager<AppUser> userManager;
 
@@ -31,8 +32,7 @@ namespace TestFeatureFlags.Controllers
 			userManager = userMgr;
 		}
 
-
-		[Authorize]
+		[Authorize(Roles = "Admin, Manager")]
 		public async Task<IActionResult> IndexAsync()
 		{
 			ViewData["BackgroundColor"] = _settings.BackgroundColor;

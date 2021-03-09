@@ -1,7 +1,10 @@
 ﻿@model User
 
-<h1 class="bg-info text-white pl-1 rounded-left">Create User</h1>
-<a asp-action="Index" class="btn btn-secondary">Back</a>
+<h1 class="bg-info text-white pl-1 mb-3 rounded-left">Create User</h1>
+<a asp-action="Index" class="btn btn-secondary">
+    <i class="fa fa-arrow-left mr-2"></i>
+    Back
+</a>
 <div asp-validation-summary="All" class="text-danger"></div>
 
 <form method="post">
@@ -17,5 +20,8 @@
         <label asp-for="Password"></label>
         <input asp-for="Password" class="form-control" />
     </div>
-    <button type="submit" class="btn btn-primary">Create</button>
+    <button type="submit" class="btn btn-primary mt-2">
+        <i class="fa fa-check-circle mr-2"></i>
+        Create
+    </button>
 </form>

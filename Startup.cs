@@ -45,9 +45,10 @@ namespace TestFeatureFlags
 				opts.Password.RequireUppercase = true;
 				opts.Password.RequireDigit = true;
 			});
-			services.ConfigureApplicationCookie(opts => 
+			services.ConfigureApplicationCookie(opts =>
 			{
 				opts.LoginPath = "/Account/Login";
+				opts.AccessDeniedPath = "/Account/AccessDenied";
 				opts.Cookie.Name = ".AspNetCore.Identity.Application";
 				opts.ExpireTimeSpan = TimeSpan.FromMinutes(20);
 				opts.SlidingExpiration = true;

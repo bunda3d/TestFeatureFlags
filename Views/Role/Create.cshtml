@@ -1,7 +1,10 @@
 ﻿@model string
 
-<h1 class="bg-info text-white pl-1 rounded-left">Create a Role</h1>
-<a asp-action="Index" class="btn btn-secondary">Back</a>
+<h1 class="bg-info text-white pl-1 mb-3 rounded-left">Create a Role</h1>
+<a asp-action="Index" class="btn btn-secondary">
+    <i class="fa fa-arrow-left mr-2"></i>
+    Back
+</a>
 <div asp-validation-summary="All" class="text-danger"></div>
 
 <form asp-action="Create" method="post">
@@ -9,5 +12,8 @@
         <label for="name">New Role Name:</label>
         <input name="name" class="form-control" />
     </div>
-    <button type="submit" class="btn btn-primary">Create</button>
+    <button type="submit" class="btn btn-primary mt-2">
+        <i class="fa fa-check-circle mr-2"></i>
+        Create
+    </button>
 </form>

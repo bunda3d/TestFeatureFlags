@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Identity\Models\AppIdentityDbContext.cs" />
+    <Compile Remove="ViewModels\AuthVM.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />

@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using TestFeatureFlags.Models;
+using TestFeatureFlags.Identity.Models;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
-using TestFeatureFlags.Identity.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
-namespace TestFeatureFlags.Views.Shared.TagHelpers
+namespace Identity.TagHelpers
 {
 	[HtmlTargetElement("td", Attributes = "i-role")]
 	public class RoleUsersTH : TagHelper

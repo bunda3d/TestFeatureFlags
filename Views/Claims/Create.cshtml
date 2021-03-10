@@ -1,0 +1,33 @@
+﻿@*info on Identity Claims: https://docs.microsoft.com/en-us/dotnet/api/system.security.claims.claimsidentity?view=net-5.0
+    and claims permission endpoint: https://benfoster.io/blog/asp-net-identity-role-claims
+*@
+
+<h1 class="bg-info text-white pl-1 rounded-left">Create Claim</h1>
+<a asp-action="Index" class="btn btn-secondary">
+    <i class="fa fa-arrow-left mr-2"></i>
+    Back
+</a>
+<div asp-validation-summary="All" class="text-danger"></div>
+
+<div class="alert alert-info mb-2" role="alert">
+    A claim is a name-value pair that can be used to set permissions. <br />
+    Example: { <b>ClaimType</b>: 'has-viewable-late-stops' | <b>ClaimValue</b>: 'false' } <br />
+    This could result in turning off late-stop indicators for a set of users
+
+</div>
+
+<form method="post">
+    <div class="form-group">
+        <label for="ClaimType">Claim Type:</label>
+        <input name="ClaimType" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="ClaimValue">Claim Value:</label>
+        <input name="ClaimValue" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-2">
+        <i class="fa fa-check-circle mr-2"></i>
+        Create
+    </button>
+</form>

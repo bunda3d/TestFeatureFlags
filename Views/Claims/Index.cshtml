@@ -1,0 +1,35 @@
+﻿@*from tutorial: https://www.yogihosting.com/aspnet-core-identity-claims/#example*@
+
+@model IEnumerable<System.Security.Claims.Claim>
+<h1 class="bg-info text-white pl-1 mb-3 rounded-left">Claims</h1>
+<div>
+    <a asp-action="Create" class="btn btn-primary mb-3 mr-2"> <i class="fa fa-plus mr-2"></i>Create a Claim</a>
+</div>
+
+<table class="table table-sm table-bordered table-striped">
+    <tr>
+        <th>Subject</th>
+        <th>Issuer</th>
+        <th>Type</th>
+        <th>Value</th>
+        <th>Delete</th>
+    </tr>
+
+    @foreach (var claim in Model.OrderBy(x => x.Type))
+    {
+        <tr>
+            <td>@claim.Subject.Name</td>
+            <td>@claim.Issuer</td>
+            <td class="text-break">@claim.Type</td>
+            <td class="text-break">@claim.Value</td>
+            <td>
+                <form asp-action="Delete" method="post">
+                    <input type="hidden" name="claimValues" value="@claim.Type;@claim.Value;@claim.Issuer" />
+                    <button type="submit" class="btn btn-sm btn-danger">
+                        Delete
+                    </button>
+                </form>
+            </td>
+        </tr>
+    }
+</table>

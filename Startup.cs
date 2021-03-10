@@ -11,6 +11,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.FeatureManagement;
+using Microsoft.AspNetCore.Authorization;
+using TestFeatureFlags.Identity.CustomPolicy;
 
 using TestFeatureFlags.TagHelpers;
 using TestFeatureFlags.Identity.Models;
@@ -32,10 +34,10 @@ namespace TestFeatureFlags
 		{
 			services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
 				b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
-
 			services.AddTransient<IPasswordValidator<AppUser>, CustomPasswordPolicy>();
 			services.AddTransient<IUserValidator<AppUser>, CustomUsernameEmailPolicy>();
 			services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+
 			services.Configure<IdentityOptions>(opts =>
 			{
 				opts.User.RequireUniqueEmail = true;
@@ -52,6 +54,33 @@ namespace TestFeatureFlags
 				opts.Cookie.Name = ".AspNetCore.Identity.Application";
 				opts.ExpireTimeSpan = TimeSpan.FromMinutes(20);
 				opts.SlidingExpiration = true;
+			});
+
+			// claims permission policy https://www.yogihosting.com/aspnet-core-identity-policies/#create
+
+			services.AddAuthorization(opts =>
+			{
+				opts.AddPolicy("AspManager", policy =>
+				{
+					policy.RequireRole("Manager");
+					policy.RequireClaim("permission", "late-stops.no-view");
+				});
+			});
+			services.AddTransient<IAuthorizationHandler, AllowUsersHandler>();
+			services.AddAuthorization(opts =>
+			{
+				opts.AddPolicy("AllowTom", policy =>
+				{
+					policy.AddRequirements(new AllowUserPolicy("tom"));
+				});
+			});
+			services.AddTransient<IAuthorizationHandler, AllowPrivateHandler>();
+			services.AddAuthorization(opts =>
+			{
+				opts.AddPolicy("PrivateAccess", policy =>
+				{
+					policy.AddRequirements(new AllowPrivatePolicy());
+				});
 			});
 
 			services.AddControllers();

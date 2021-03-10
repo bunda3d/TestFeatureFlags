@@ -10,11 +10,11 @@ namespace TestFeatureFlags.Identity.Models
 {
 	public class AppUser : IdentityUser
 	{
-		public Country Country { get; set; }
-		public int Age { get; set; }
+		public virtual Country Country { get; set; }
+		public virtual int Age { get; set; }
 
 		[Required]
-		public string Salary { get; set; }
+		public virtual string Salary { get; set; }
 
 		public virtual string CreatedBy { get; set; }
 		public virtual DateTime CreatedDate { get; set; }

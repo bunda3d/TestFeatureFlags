@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TestFeatureFlags.Identity.Models;
+using System.Security.Claims;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -58,6 +59,47 @@ namespace TestFeatureFlags.Controllers
 		public IActionResult AccessDenied()
 		{
 			return View();
+		}
+
+		[AllowAnonymous]
+		public IActionResult GoogleLogin()
+		{
+			string redirectUrl = Url.Action("GoogleResponse", "Account");
+			var properties = signInManager.ConfigureExternalAuthenticationProperties("Google", redirectUrl);
+			return new ChallengeResult("Google", properties);
+		}
+
+		[AllowAnonymous]
+		public async Task<IActionResult> GoogleResponse()
+		{
+			ExternalLoginInfo info = await signInManager.GetExternalLoginInfoAsync();
+			if (info == null)
+				return RedirectToAction(nameof(Login));
+
+			var result = await signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, false);
+			string[] userInfo = { info.Principal.FindFirst(ClaimTypes.Name).Value, info.Principal.FindFirst(ClaimTypes.Email).Value };
+			if (result.Succeeded)
+				return View(userInfo);
+			else
+			{
+				AppUser user = new AppUser
+				{
+					Email = info.Principal.FindFirst(ClaimTypes.Email).Value,
+					UserName = info.Principal.FindFirst(ClaimTypes.Email).Value
+				};
+
+				IdentityResult identResult = await userManager.CreateAsync(user);
+				if (identResult.Succeeded)
+				{
+					identResult = await userManager.AddLoginAsync(user, info);
+					if (identResult.Succeeded)
+					{
+						await signInManager.SignInAsync(user, false);
+						return View(userInfo);
+					}
+				}
+				return AccessDenied();
+			}
 		}
 
 		public async Task<IActionResult> Logout()

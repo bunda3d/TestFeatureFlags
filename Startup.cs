@@ -34,6 +34,7 @@ namespace TestFeatureFlags
 		{
 			services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
 				b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+
 			services.AddTransient<IPasswordValidator<AppUser>, CustomPasswordPolicy>();
 			services.AddTransient<IUserValidator<AppUser>, CustomUsernameEmailPolicy>();
 			services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
@@ -55,6 +56,14 @@ namespace TestFeatureFlags
 				opts.ExpireTimeSpan = TimeSpan.FromMinutes(20);
 				opts.SlidingExpiration = true;
 			});
+
+			services.AddAuthentication()
+	.AddGoogle(opts =>
+	{
+		opts.ClientId = "460161640272-dskc56sn2co51pjr740ehe21uqnue88u.apps.googleusercontent.com";
+		opts.ClientSecret = "8V0m3z5QnpqRV1e_47sW6UYo";
+		opts.SignInScheme = IdentityConstants.ExternalScheme;
+	});
 
 			// claims permission policy https://www.yogihosting.com/aspnet-core-identity-policies/#create
 
@@ -102,7 +111,7 @@ namespace TestFeatureFlags
 			{
 				app.UseExceptionHandler("/Home/Error");
 				// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-				//app.UseHsts();
+				app.UseHsts();
 			}
 			app.UseAzureAppConfiguration();
 

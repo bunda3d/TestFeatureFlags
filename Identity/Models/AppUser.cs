@@ -13,7 +13,7 @@ namespace TestFeatureFlags.Identity.Models
 		public virtual Country Country { get; set; }
 		public virtual int Age { get; set; }
 
-		[Required]
+		//[Required] commented because auto gen google users who don't exist tries to add NULL salary, & then app breaks
 		public virtual string Salary { get; set; }
 
 		public virtual string CreatedBy { get; set; }

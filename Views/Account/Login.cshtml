@@ -13,5 +13,13 @@
         <label asp-for="Password"></label>
         <input asp-for="Password" class="form-control" />
     </div>
-    <button class="btn btn-primary" type="submit">Log In</button>
+    <div class="mb-2">
+        <button class="btn btn-primary mr-2" type="submit">
+            Log In
+        </button>
+        <a asp-action="GoogleLogin" class="btn btn-danger">
+            <i class="fa fa-google mr-2"></i>
+            Log In With Google
+        </a>
+    </div>
 </form>

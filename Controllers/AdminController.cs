@@ -19,7 +19,6 @@ namespace TestFeatureFlags.Controllers
 		private IUserValidator<AppUser> userValidator;
 
 		public AdminController(UserManager<AppUser> usrMgr, IPasswordHasher<AppUser> passwordHash, IPasswordValidator<AppUser> passwordVal, IUserValidator<AppUser> userValid)
-
 		{
 			userManager = usrMgr;
 			passwordHasher = passwordHash;
@@ -37,11 +36,25 @@ namespace TestFeatureFlags.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Update(string id, string email, string password, int age, string country, string salary)
+		public async Task<IActionResult> Update(string id, string userName, string email, string password, int age, string country, string salary)
 		{
 			AppUser user = await userManager.FindByIdAsync(id);
 			if (user != null)
 			{
+
+				IdentityResult validUserName = null;
+				if (!string.IsNullOrEmpty(userName))
+				{
+					validUserName = await userValidator.ValidateAsync(userManager, user);
+					if (validUserName.Succeeded)
+						user.UserName = userName;
+					else
+						Errors(validUserName);
+				}
+				else
+					ModelState.AddModelError("", "User Name cannot be empty");
+
+
 				IdentityResult validEmail = null;
 				if (!string.IsNullOrEmpty(email))
 				{

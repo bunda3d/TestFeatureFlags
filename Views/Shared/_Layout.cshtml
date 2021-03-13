@@ -1,11 +1,15 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - TestFeatureFlags</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
@@ -35,16 +39,17 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        <li class="nav-item dropdown">
+                        <li class="nav-item dropdown ml-auto">
                             <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item text-dark" asp-area="" asp-controller="Admin" asp-action="Index">Users</a>
                                 <a class="dropdown-item text-dark" asp-area="" asp-controller="Role" asp-action="Index">Roles</a>
                                 <a class="dropdown-item text-dark" asp-area="" asp-controller="Claims" asp-action="Index">Claims</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
-                                <a class="dropdown-item text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
-                                <a class="dropdown-item" href="#">Something else here</a>
+                                @if (SignInManager.IsSignedIn(User))
+                                {<a class="dropdown-item text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Logout @User.Identity.Name</a>}
+                                @if (!SignInManager.IsSignedIn(User))
+                                {<a class="dropdown-item text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login @User.Identity.Name</a>}
                             </div>
                         </li>
                     </ul>
